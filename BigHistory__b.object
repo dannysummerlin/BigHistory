@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<customobject xmlns="http://soap.sforce.com/2006/04/metadata">
+	<deploymentstatus>Deployed</deploymentstatus>
+	<fields>
+		<fullname>RecordId__c</fullname>
+		<externalid>false</externalid>
+		<label>Record ID</label>
+		<length>18</length>
+		<required>true</required>
+		<type>Text</type>
+		<unique>false</unique>
+	</fields>
+	<fields>
+		<fullname>sObjectType__c</fullname>
+		<externalid>false</externalid>
+		<label>sObject Type</label>
+		<length>255</length>
+		<required>true</required>
+		<type>Text</type>
+		<unique>false</unique>
+	</fields>
+	<fields>
+		<fullname>FieldName__c</fullname>
+		<externalid>false</externalid>
+		<label>Field Name</label>
+		<length>40</length>
+		<required>true</required>
+		<type>Text</type>
+		<unique>false</unique>
+	</fields>
+	<fields>
+		<fullname>FieldType__c</fullname>
+		<externalid>false</externalid>
+		<label>Field Type</label>
+		<length>40</length>
+		<required>true</required>
+		<type>Text</type>
+		<unique>false</unique>
+	</fields>
+	<fields>
+		<fullname>OldValue__c</fullname>
+		<externalid>false</externalid>
+		<label>Original Value</label>
+		<length>130000</length>
+		<required>true</required>
+		<type>LongText</type>
+		<unique>false</unique>
+	</fields>
+	<fields>
+		<fullname>NewValue__c</fullname>
+		<externalid>false</externalid>
+		<label>New Value</label>
+		<length>130000</length>
+		<required>true</required>
+		<type>LongText</type>
+		<unique>false</unique>
+	</fields>
+	<fields>
+		<fullname>Username__c</fullname>
+		<externalid>false</externalid>
+		<label>Salesforce Username</label>
+		<length>255</length>
+		<required>true</required>
+		<type>Text</type>
+		<unique>false</unique>
+	</fields>
+	<fields>
+		<fullname>UserId__c</fullname>
+		<externalid>false</externalid>
+		<label>Salesforce User ID</label>
+		<length>18</length>
+		<required>true</required>
+		<type>Text</type>
+		<unique>false</unique>
+	</fields>
+	<fields>
+		<fullname>CreatedDate__c</fullname>
+		<externalid>false</externalid>
+		<label>Created Date</label>
+		<required>true</required>
+		<type>DateTime</type>
+	</fields>
+	<indexes>
+		<fullName>BigHistoryIndex</fullName>
+		<type>PRIMARY</type>
+		<fields>
+			<name>RecordId__c</name>
+			<sortDirection>DESC</sortDirection>
+		</fields>
+		<fields>
+			<name>CreatedDate__c</name>
+			<sortDirection>DESC</sortDirection>
+		</fields>
+		<label>BigHistoryIndex</label>
+	</indexes>
+	<indexes>
+		<fullName>BigHistoryFieldIndex</fullName>
+		<fields>
+			<name>RecordId__c</name>
+			<sortDirection>DESC</sortDirection>
+		</fields>
+		<fields>
+			<name>FieldName__c</name>
+			<sortDirection>DESC</sortDirection>
+		</fields>
+		<label>BigHistoryFieldIndex</label>
+	</indexes>
+	<label>BigHistory Entry</label>
+	<plurallabel>BigHistory Entries</plurallabel>
+</customobject>
