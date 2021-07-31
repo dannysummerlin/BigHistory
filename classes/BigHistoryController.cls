@@ -32,6 +32,25 @@ public with sharing class BigHistoryController {
 		}
 	}
 	@InvocableMethod(label='Create BigHistory Entry' description='Adds an entry for the changes to a record')
+	public static List<String> recordBigHistory(List<CompareRecords.comparisonData> inputs) {
+		List<BigHistoryEntry> newEntries = new List<BigHistoryEntry>();
+		List<CompareRecords.comparisonResult> comparisonResults = CompareRecords.compare(inputs);
+		for (Integer ii = 0; ii < comparisonResults.size(); ii++) {
+			BigHistoryEntry entry = new BigHistoryEntry();
+			entry.RecordId = comparisonResults[ii].recordId;
+			entry.sObjectType = comparisonResults[ii].sObjectType;
+			entry.FieldName = comparisonResults[ii].fieldName;
+			entry.FieldType = comparisonResults[ii].fieldType;
+			entry.OldValue = comparisonResults[ii].oldValue;
+			entry.NewValue = comparisonResults[ii].newValue;
+			entry.Username = UserInfo.getUserName();
+			entry.UserId = UserInfo.getUserId();
+			newEntries.add(entry);
+		}
+		List<String> results = BigHistoryController.addBigHistory(newEntries);
+		return results;
+	}
+	// @InvocableMethod(label='Create BigHistory Entry' description='Adds an entry for the changes to a record')
 	public static List<String> addBigHistory(List<BigHistoryEntry> entries) {
 		List<BigHistory__b> createEntries = new List<BigHistory__b>();
 		List<String> results = new List<String>();
