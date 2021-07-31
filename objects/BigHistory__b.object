@@ -96,18 +96,6 @@
 		</fields>
 		<label>BigHistoryIndex</label>
 	</indexes>
-	<indexes>
-		<fullName>BigHistoryFieldIndex</fullName>
-		<fields>
-			<name>RecordId__c</name>
-			<sortDirection>DESC</sortDirection>
-		</fields>
-		<fields>
-			<name>FieldName__c</name>
-			<sortDirection>DESC</sortDirection>
-		</fields>
-		<label>BigHistoryFieldIndex</label>
-	</indexes>
 	<label>BigHistory Entry</label>
 	<pluralLabel>BigHistory Entries</pluralLabel>
 </CustomObject>

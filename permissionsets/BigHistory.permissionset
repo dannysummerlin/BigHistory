@@ -2,47 +2,12 @@
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
 	<label>BigHistory Permission Set</label>
 	<fieldPermissions>
-		<field>BigHistory__b.RecordId__c</field>
-		<editable>true</editable>
-		<readable>true</readable>
-	</fieldPermissions>
-	<fieldPermissions>
-		<field>BigHistory__b.sObjectType__c</field>
-		<editable>true</editable>
-		<readable>true</readable>
-	</fieldPermissions>
-	<fieldPermissions>
-		<field>BigHistory__b.FieldName__c</field>
-		<editable>true</editable>
-		<readable>true</readable>
-	</fieldPermissions>
-	<fieldPermissions>
-		<field>BigHistory__b.FieldType__c</field>
-		<editable>true</editable>
-		<readable>true</readable>
-	</fieldPermissions>
-	<fieldPermissions>
 		<field>BigHistory__b.OldValue__c</field>
 		<editable>true</editable>
 		<readable>true</readable>
 	</fieldPermissions>
 	<fieldPermissions>
 		<field>BigHistory__b.NewValue__c</field>
-		<editable>true</editable>
-		<readable>true</readable>
-	</fieldPermissions>
-	<fieldPermissions>
-		<field>BigHistory__b.Username__c</field>
-		<editable>true</editable>
-		<readable>true</readable>
-	</fieldPermissions>
-	<fieldPermissions>
-		<field>BigHistory__b.UserId__c</field>
-		<editable>true</editable>
-		<readable>true</readable>
-	</fieldPermissions>
-	<fieldPermissions>
-		<field>BigHistory__b.CreatedDate__c</field>
 		<editable>true</editable>
 		<readable>true</readable>
 	</fieldPermissions>
