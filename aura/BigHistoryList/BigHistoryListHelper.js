@@ -68,7 +68,12 @@
 			const exclusionList = c.get('v.exclusionCSV').split(',').reduce((l,e) => l.push(e.trim()), [])
 			if (state === "SUCCESS") {
 				let bigHistoryEntries = JSON.parse(response.getReturnValue())
-				bigHistoryEntries = bigHistoryEntries.filter(e=>(!exclusionList.includes(e)))
+				try {
+					bigHistoryEntries = bigHistoryEntries.filter(e=>(!exclusionList.includes(e)))
+				} catch (err) {
+					bigHistoryEntries = []
+					console.log(err)
+				}
 				h.displayEntries(c,e,h,bigHistoryEntries)
 			} else {
 				h.handleError(c,e,h,response)

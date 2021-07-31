@@ -1,4 +1,4 @@
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="BigHistoryController" description="A list view of BigHistory entries for a record">
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" access="global" controller="BigHistoryController" description="A list view of BigHistory entries for a record">
 	<aura:attribute default="100" type="Integer" name="results"></aura:attribute>
 	<aura:attribute default="" type="String" name="recordId"></aura:attribute>
 	<aura:attribute default="" type="String" name="exclusionCSV"></aura:attribute>
