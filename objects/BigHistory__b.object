@@ -41,18 +41,18 @@
 		<fullname>OldValue__c</fullname>
 		<externalid>false</externalid>
 		<label>Original Value</label>
-		<length>130000</length>
+		<length>131072</length>
 		<required>true</required>
-		<type>LongText</type>
+		<type>TextArea</type>
 		<unique>false</unique>
 	</fields>
 	<fields>
 		<fullname>NewValue__c</fullname>
 		<externalid>false</externalid>
 		<label>New Value</label>
-		<length>130000</length>
+		<length>131072</length>
 		<required>true</required>
-		<type>LongText</type>
+		<type>TextArea</type>
 		<unique>false</unique>
 	</fields>
 	<fields>
