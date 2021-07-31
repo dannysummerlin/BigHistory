@@ -1,9 +1,9 @@
-global class CompareRecords {
-	public static List<comparisonResult> compare(comparisonData[] inputs) {
-		List<comparisonResult> wrapper = new List<comparisonResult>{};
+global class BigHistoryComparison {
+	public static List<BigHistoryComparison.comparisonResult> compare(comparisonData[] inputs) {
+		List<BigHistoryComparison.comparisonResult> wrapper = new List<BigHistoryComparison.comparisonResult>{};
 		for(Integer count = 0; count < inputs.size(); count++) {
-			comparisonData current = inputs[count];
-			comparisonResult output = new comparisonResult();
+			BigHistoryComparison.comparisonData current = inputs[count];
+			BigHistoryComparison.comparisonResult output = new BigHistoryComparison.comparisonResult();
 			try {
 				if(current.oldRecord.getSObjectType() != current.newRecord.getSObjectType()) {
 					SObjectException e = new SObjectException();
@@ -44,9 +44,9 @@ global class CompareRecords {
 		return wrapper;
 	}
 	@InvocableMethod(label='Compare Records' description='returns the fields with a difference in value between two records. Toggle the "Same" option to find matching values.')
-	public static List<List<comparisonResult>> compareRecords(List<comparisonData> inputs) {
-		List<List<comparisonResult>> outList = new List<List<comparisonResult>>{};
-		outList.add( CompareRecords.compare(inputs) );
+	public static List<List<BigHistoryComparison.comparisonResult>> compareRecords(List<BigHistoryComparison.comparisonData> inputs) {
+		List<List<BigHistoryComparison.comparisonResult>> outList = new List<List<BigHistoryComparison.comparisonResult>>{};
+		outList.add( BigHistoryComparison.compare(inputs) );
 		return outList;
 	}
 	global class comparisonData {

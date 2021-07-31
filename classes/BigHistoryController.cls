@@ -32,9 +32,9 @@ public with sharing class BigHistoryController {
 		}
 	}
 	@InvocableMethod(label='Create BigHistory Entry' description='Adds an entry for the changes to a record')
-	public static List<String> recordBigHistory(List<CompareRecords.comparisonData> inputs) {
+	public static List<String> recordBigHistory(List<BigHistoryComparison.comparisonData> inputs) {
 		List<BigHistoryEntry> newEntries = new List<BigHistoryEntry>();
-		List<CompareRecords.comparisonResult> comparisonResults = CompareRecords.compare(inputs);
+		List<BigHistoryComparison.comparisonResult> comparisonResults = BigHistoryComparison.compare(inputs);
 		for (Integer ii = 0; ii < comparisonResults.size(); ii++) {
 			BigHistoryEntry entry = new BigHistoryEntry();
 			entry.RecordId = comparisonResults[ii].recordId;
