@@ -55,12 +55,13 @@
 		let spinner = c.find('spinner')
 		$A.util.removeClass(spinner, "slds-hide")
 		let action = c.get("c.getBigHistory")
-		const endDate = c.get("v.today")
+		// TODO more filtering options later
+		// const startDate = c.get("v.startDate")
+		// const endDate = c.get("v.endDate")
 		const resultCount = c.get("v.resultCount")
 		action.setParams({
 			recordId : c.get("v.recordId"),
-			resultCount : resultCount,
-			endDate : endDate
+			resultCount : resultCount
 		})
 		action.setCallback(this, function(response){
 			const state = response.getState()

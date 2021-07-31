@@ -1,0 +1,4 @@
+<design:component>
+	<design:attribute name="recordId" label="Record Id" description="Set this to the ID of the record whose history you want to see" />
+	<design:attribute name="exclusionCSV" label="Exclusion List (CSV)" description="List comma-separated API names of fields to exclude (eg secure fields like SSNs)" />
+</design:component>
