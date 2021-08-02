@@ -1,9 +1,8 @@
 global class BigHistoryComparison {
-	public static List<BigHistoryComparison.comparisonResult> compare(comparisonData[] inputs) {
+	public static List<BigHistoryComparison.comparisonResult> compare(List<BigHistoryComparison.comparisonData> inputs) {
 		List<BigHistoryComparison.comparisonResult> wrapper = new List<BigHistoryComparison.comparisonResult>{};
 		for(Integer count = 0; count < inputs.size(); count++) {
 			BigHistoryComparison.comparisonData current = inputs[count];
-			BigHistoryComparison.comparisonResult output = new BigHistoryComparison.comparisonResult();
 			try {
 				if(current.oldRecord.getSObjectType() != current.newRecord.getSObjectType()) {
 					SObjectException e = new SObjectException();
@@ -14,30 +13,40 @@ global class BigHistoryComparison {
 				Type classType = Type.forName(objDef.getName());
 				Map<String, SObjectField> fields = objDef.fields.getMap();
 
-				output.sObjectType = (String) objDef.getName();
-				output.recordId = (String) current.oldRecord.get('Id');
+				String sObjectType = (String) objDef.getName();
+				String recordId = (String) current.oldRecord.get('Id');
 
 				Set<String> fieldsToExclude = new Set<String>{};
 				if(current.fieldsToExcludeList != null)
 					fieldsToExclude = new Set<String>(current.fieldsToExcludeList.replaceAll('\\s','').split(','));
+				// fields that always change and should be ignored
+				fieldsToExclude.add('systemmodstamp');
+				fieldsToExclude.add('lastmodifieddate');
 				for(String fieldName : fields.keySet()) {
-					if (!fieldsToExclude.contains(fieldName)) {
-						if(
-							(!current.isSame && current.oldRecord.get(fieldName) != current.newRecord.get(fieldName))
-							|| (current.isSame && current.oldRecord.get(fieldName) == current.newRecord.get(fieldName) && current.oldRecord.get(fieldName) != null)
-						) {
-							output.fieldName = fieldName;
-							output.fieldType = objDef.fields.getMap().get(fieldName).getDescribe().getType().name();
-							output.oldValue = ((String) current.oldRecord.get(fieldName));
-							output.newValue = ((String) current.newRecord.get(fieldName));
-							wrapper.add(output);
+					BigHistoryComparison.comparisonResult output = new BigHistoryComparison.comparisonResult();
+					try {
+						output.sObjectType = sObjectType;
+						output.recordId = recordId;
+						if (!fieldsToExclude.contains(fieldName)) {
+							if(
+								(!current.isSame && current.oldRecord.get(fieldName) != current.newRecord.get(fieldName))
+								|| (current.isSame && current.oldRecord.get(fieldName) == current.newRecord.get(fieldName) && current.oldRecord.get(fieldName) != null)
+							) {
+								output.fieldName = fieldName;
+								output.fieldType = objDef.fields.getMap().get(fieldName).getDescribe().getType().name();
+								output.oldValue = String.valueOf(current.oldRecord.get(fieldName));
+								output.newValue = String.valueOf(current.newRecord.get(fieldName));
+								wrapper.add(output);
+							}
 						}
+					} catch (Exception e) {
+						output.hasError = true;
+						output.errorMessage = e.getMessage();
+						wrapper.add(output);
+						System.debug('An exception occurred: ' + e.getMessage());
 					}
 				}
 			} catch (Exception e) {
-				output.hasError = true;
-				output.errorMessage = e.getMessage();
-				wrapper.add(output);
 				System.debug('An exception occurred: ' + e.getMessage());
 			}
 		}
@@ -49,11 +58,19 @@ global class BigHistoryComparison {
 		outList.add( BigHistoryComparison.compare(inputs) );
 		return outList;
 	}
-	global class comparisonData {
-		@AuraEnabled @InvocableVariable(label='Original Record' description='First record for comparison' required=true) public sObject oldRecord;
-		@AuraEnabled @InvocableVariable(label='New Record' description='Second record for comparison' required=true) public sObject newRecord;
-		@AuraEnabled @InvocableVariable(label='Find Same Values?' description='by default the differences are returned, check this to find matching values instead' required=false) public Boolean isSame = false;
-		@AuraEnabled @InvocableVariable(label='Fields to Exclude' description='(optional) comma-separated list of fields to skip' required=false) public String fieldsToExcludeList;
+	public class comparisonData {
+		@AuraEnabled
+		@InvocableVariable(label='New Record' description='Second record for comparison')
+		public sObject newRecord;
+		@AuraEnabled
+		@InvocableVariable(label='Original Record' description='First record for comparison')
+		public sObject oldRecord;
+		@AuraEnabled
+		@InvocableVariable(label='Find Same Values?' description='by default the differences are returned, check this to find matching values instead')
+		public Boolean isSame = false;
+		@AuraEnabled
+		@InvocableVariable(label='Fields to Exclude' description='(optional) comma-separated list of fields to skip')
+		public String fieldsToExcludeList = '';
 	}
 	public class comparisonResult {
 		@AuraEnabled @InvocableVariable(label='Record ID' description='' required=true) public String recordId = '';

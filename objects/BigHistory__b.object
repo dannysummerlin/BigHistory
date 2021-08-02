@@ -67,22 +67,6 @@
 		<type>Text</type>
 		<unique>false</unique>
 	</fields>
-	<fields>
-		<fullName>UserId__c</fullName>
-		<externalId>false</externalId>
-		<label>Salesforce User ID</label>
-		<length>18</length>
-		<required>true</required>
-		<type>Text</type>
-		<unique>false</unique>
-	</fields>
-	<fields>
-		<fullName>CreatedDate__c</fullName>
-		<externalId>false</externalId>
-		<label>Created Date</label>
-		<required>true</required>
-		<type>DateTime</type>
-	</fields>
 	<indexes>
 		<fullName>BigHistoryIndex</fullName>
 		<type>PRIMARY</type>
@@ -91,7 +75,7 @@
 			<sortDirection>DESC</sortDirection>
 		</fields>
 		<fields>
-			<name>CreatedDate__c</name>
+			<name>CreatedDate</name>
 			<sortDirection>DESC</sortDirection>
 		</fields>
 		<label>BigHistoryIndex</label>

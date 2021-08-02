@@ -1,8 +1,9 @@
 ({
 	displayEntries: function(c, e, h, entries) {
 		let allRows = []
-		for (var i = entries.length - 1; i >= 0; i--) {
-			const entry = entries[i]
+		for (let ii = entries.length - 1; ii >= 0; ii--) {
+			const entry = entries[ii]
+console.log(entry)
 			allRows.push(`<tr>
 				<td role="gridcell" class="slds-cell-edit slds-cell-error errorColumn cellContainer" tabindex="-1">
 					<span class="slds-grid slds-grid--align-spread">
@@ -14,7 +15,7 @@
 				</td>
 				<th scope="row" class="slds-cell-edit cellContainer" tabindex="-1">
 					<span class="slds-grid slds-grid--align-spread">
-						<span class="slds-truncate uiOutputDateTime">${entry.CreatedDate__c}</span>
+						<span class="slds-truncate uiOutputDateTime">${entry.CreatedDate}</span>
 					</span>
 				</th>
 				<td role="gridcell" class="slds-cell-edit cellContainer" tabindex="-1">
@@ -45,7 +46,8 @@
 				</td>
 			</tr>`)
 		}
-		c.set('v.listContent', allRows.join("\n"))
+		document.getElementById('listBody').innerHTML = allRows.join("\n")
+		//c.set('v.listContent', allRows.join("\n"))
 	},
 	handleError: function(c,e,h,response) {
 		// error message
@@ -55,9 +57,6 @@
 		let spinner = c.find('spinner')
 		$A.util.removeClass(spinner, "slds-hide")
 		let action = c.get("c.getBigHistory")
-		// TODO more filtering options later
-		// const startDate = c.get("v.startDate")
-		// const endDate = c.get("v.endDate")
 		const resultCount = c.get("v.resultCount")
 		action.setParams({
 			recordId : c.get("v.recordId"),
@@ -65,16 +64,17 @@
 		})
 		action.setCallback(this, function(response){
 			const state = response.getState()
-			const exclusionList = c.get('v.exclusionCSV').split(',').reduce((l,e) => l.push(e.trim()), [])
+			let exclusionList = c.get('v.exclusionCSV').split(',') || []
+			exclusionList = exclusionList.reduce((l,e) => l.concat(e.trim()), [])
 			if (state === "SUCCESS") {
-				let bigHistoryEntries = JSON.parse(response.getReturnValue())
+				let bigHistoryEntries = JSON.parse(response.getReturnValue()).entries
 				try {
-					bigHistoryEntries = bigHistoryEntries.filter(e=>(!exclusionList.includes(e)))
+					bigHistoryEntries = bigHistoryEntries.filter(e=>(!exclusionList.includes(e.FieldName__c)))
 				} catch (err) {
 					bigHistoryEntries = []
 					console.log(err)
 				}
-				h.displayEntries(c,e,h,bigHistoryEntries)
+				h.displayEntries(c,e,h, bigHistoryEntries)
 			} else {
 				h.handleError(c,e,h,response)
 			}

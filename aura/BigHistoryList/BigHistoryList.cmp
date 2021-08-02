@@ -5,20 +5,6 @@
 	<aura:attribute default="" type="String" name="listContent"></aura:attribute>
 	<aura:handler action="{!c.init}" name="init" value="{!this}"></aura:handler>
 	<article class="slds-card">
-		<div class="slds-card__header slds-grid">
-			<header class="slds-media slds-media_center slds-has-flexi-truncate">
-				<div class="slds-media__figure">
-				<span class="slds-icon_container slds-icon-standard-contact" title="BigHistory view">
-					<lightning:icon iconname="channel_program_history"></lightning:icon>
-				</span>
-				</div>
-				<div class="slds-media__body">
-					<h2></h2>
-				</div>
-			</header>
-			<div class="slds-no-flex">
-			</div>
-		</div>
 		<div style="height: 100%" class="slds-card__body slds-card__body_inner">
 			<div class="slds-card slds-card_boundary slds-grid slds-grid--vertical forceListViewManager">
 				<div class="slds-page-header--object-home slds-page-header_joined slds-page-header_bleed slds-page-header slds-shrink-none test-headerRegion forceListViewManagerHeader">
@@ -26,7 +12,14 @@
 						<div class="slds-col slds-has-flexi-truncate firstHeaderRow">
 							<div class="slds-media slds-no-space slds-grow">
 								<div class="slds-media__body slds-align-middle">
-									<h1 class="slds-page-header__title listViewTitle slds-truncate">Field History</h1>
+									<div class="slds-media__figure">
+										<h1 class="slds-page-header__title listViewTitle slds-truncate">
+											<span class="slds-icon_container slds-icon-standard-contact" title="BigHistory view">
+												<lightning:icon iconname="channel_program_history"></lightning:icon>
+											</span>
+											Field History
+										</h1>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -164,7 +157,7 @@
 														</tr>
 													</thead>
 													<tbody id="listBody">
-														<aura:unescapedHtml value="{!v.listContent}" />
+														<!-- <aura:unescapedHtml value="{!v.listContent}" /> -->
 													</tbody>
 												</table>
 												<div tabindex="0"></div>
