@@ -5,28 +5,8 @@
 	<aura:attribute default="" type="List" name="columns"></aura:attribute>
 	<aura:attribute default="" type="Object" name="entries"></aura:attribute>
 	<aura:handler action="{!c.init}" name="init" value="{!this}"></aura:handler>
-	<article class="slds-card">
-		<div class="slds-page-header">
-			<div class="slds-page-header__row">
-				<div class="slds-page-header__col-title">
-					<div class="slds-media">
-						<div class="slds-media__figure">
-							<lightning:icon icon-name="standard:event" alternative-text="Event" title="Event"></lightning:icon>
-						</div>
-						<div class="slds-media__body">
-							<div class="slds-page-header__name">
-								<div class="slds-page-header__name-title">
-									<h2>
-										<span class="slds-page-header__title slds-truncate" title="Field History">Field History</span>
-									</h2>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+	<lightning:card class="slds-page-header slds-card_boundary" iconName="standard:channel_program_history" title="Field History">
 		<lightning:datatable keyField="id" data="{! v.entries }" columns="{! v.columns }" hideCheckboxColumn="true"/>
 		<lightning:spinner aura:id="bigHistorySpinner" alternativeText="Loading..." />
-	</article>
+	</lightning:card>
 </aura:component>
