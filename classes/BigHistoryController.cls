@@ -1,58 +1,47 @@
 public class BigHistoryController {
 	@InvocableMethod(label='Create BigHistory Entry' description='Adds an entry for the changes to a record')
 	public static List<String> recordBigHistory(List<BigHistoryComparison.comparisonData> inputs) {
-		List<BigHistoryEntry> newEntries = new List<BigHistoryEntry>();
+		Set<String> results = new Set<String>();
 		List<BigHistoryComparison.comparisonResult> comparisonResults = BigHistoryComparison.compare(inputs);
+		List<BigHistory__b> createEntries = new List<BigHistory__b>();
 		if(comparisonResults.size() > 0) {
 			for (Integer ii = 0; ii < comparisonResults.size(); ii++) {
-				BigHistoryEntry entry = new BigHistoryEntry();
-				entry.RecordId = comparisonResults[ii].recordId;
-				entry.sObjectType = comparisonResults[ii].sObjectType;
-				entry.FieldName = comparisonResults[ii].fieldName;
-				entry.FieldType = comparisonResults[ii].fieldType;
-				entry.OldValue = comparisonResults[ii].oldValue;
-				entry.NewValue = comparisonResults[ii].newValue;
-				entry.Username = UserInfo.getUserName();
-				newEntries.add(entry);
+				BigHistory__b entry = new BigHistory__b();
+				try {
+					entry.RecordId__c = comparisonResults[ii].recordId;
+					entry.sObjectType__c = comparisonResults[ii].sObjectType;
+					entry.FieldName__c = comparisonResults[ii].fieldName;
+					entry.FieldLabel__c = comparisonResults[ii].fieldLabel;
+					entry.FieldType__c = comparisonResults[ii].fieldType;
+					entry.OldValue__c = (String) comparisonResults[ii].oldValue;
+					entry.NewValue__c = (String) comparisonResults[ii].newValue;
+					entry.Username__c = UserInfo.getUserName();
+					createEntries.add(entry);
+					results.add('Success for ' + comparisonResults[ii].RecordId);
+				} catch (Exception e) {
+					results.add('Error: ' + e.getMessage());
+					System.debug(e);
+				}
 			}
-			List<String> results = BigHistoryController.addBigHistory(newEntries);
-			if(results.size() == inputs.size())
-				return results;
-			else
-				return (new String[inputs.size()]);
+			List<String> output = new List<String>(results);
+			if(output.size() < inputs.size()) {
+				Integer toMatch = inputs.size() - results.size();
+				for(;toMatch > 0; toMatch--) {
+					results.add(String.valueOf(Math.random() * 100));
+				}
+			}
+			try {
+				BigHistoryHandler handler = new BigHistoryHandler(createEntries);
+				System.enqueueJob(handler);
+				return output;
+			} catch (Exception e) {
+				output[inputs.size() - 1] = e.getMessage();
+				System.debug(e);
+				System.debug(output);
+				return output;
+			}
 		} else {
 			return (new String[inputs.size()]);
-		}
-	}
-	public static List<String> addBigHistory(List<BigHistoryEntry> entries) {
-		List<BigHistory__b> createEntries = new List<BigHistory__b>();
-		List<String> results = new List<String>();
-		for (Integer ii = 0; ii < entries.size(); ii++) {
-			BigHistory__b entry = new BigHistory__b();
-			try {
-				entry.RecordId__c = entries[ii].RecordId;
-				entry.sObjectType__c = entries[ii].sObjectType;
-				entry.FieldName__c = entries[ii].FieldName;
-				entry.FieldType__c = entries[ii].FieldType;
-				entry.OldValue__c = (String) entries[ii].OldValue;
-				entry.NewValue__c = (String) entries[ii].NewValue;
-				entry.Username__c = entries[ii].Username;
-				createEntries.add(entry);
-				results.add('Success for ' + entries[ii].RecordId);
-			} catch (Exception e) {
-				results.add('Error: ' + e.getMessage());
-				System.debug(e);
-			}
-		}
-		try {
-			BigHistoryHandler handler = new BigHistoryHandler(createEntries);
-			System.enqueueJob(handler);
-			return results;
-		} catch (Exception e) {
-			results[entries.size() - 1] = e.getMessage();
-			System.debug(e);
-			System.debug(results);
-			return results;
 		}
 	}
 
@@ -64,7 +53,7 @@ public class BigHistoryController {
 		}
 		// system.debug('RESULTS: ' + resultCount);
 		List<BigHistory__b> historyEntries = [
-				SELECT RecordId__c, sObjectType__c, FieldName__c, FieldType__c, OldValue__c, NewValue__c, Username__c, CreatedDate
+				SELECT RecordId__c, sObjectType__c, FieldName__c, FieldLabel__c, FieldType__c, OldValue__c, NewValue__c, Username__c, CreatedDate
 				FROM BigHistory__b
 				WHERE recordId__c = :recordId
 				LIMIT :Integer.valueof(resultCount)
@@ -76,24 +65,6 @@ public class BigHistoryController {
 		hr.entries = historyEntries;
 		return JSON.serialize(hr);
 	}
-	public class BigHistoryEntry {
-		@InvocableVariable(label='Record ID' description='' required=true)
-		public String RecordId;
-		@InvocableVariable(label='sObject Type' description='')
-		public String sObjectType; // optional
-		@InvocableVariable(label='Field Name' description='' required=true)
-		public String FieldName;
-		@InvocableVariable(label='Field Type' description='' required=true)
-		public String FieldType;
-		@InvocableVariable(label='Original Value' description='')
-		public String OldValue; // can be null
-		@InvocableVariable(label='New Value' description='')
-		public String NewValue; // can be null
-		@InvocableVariable(label='Salesforce Username' description='' required=true)
-		public String Username;
-		@InvocableVariable(label='Salesforce User ID' description='' required=true)
-		public String UserId;
-	}
 	public class BigHistoryEntryResult {
 		public String recordId {get;set;}
 		public Integer resultCount {get;set;}
@@ -104,7 +75,6 @@ public class BigHistoryController {
 		public BigHistoryEntryResult(String recordId) {
 			this.recordId = recordId;
 			this.resultCount = 0;
-			// this.CreatedDate = new DateTime();
 			this.entries = new List<BigHistory__b>();
 		}
 	}

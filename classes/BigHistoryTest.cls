@@ -23,7 +23,7 @@ private class BigHistoryTest {
 		Contact test1 = new Contact();
 			test1.FirstName = 'Lincoln';
 			test1.LastName = 'Summerlin';
-		Insert test1;
+		// Database.insertImmediate((sObject) test1);
 		Contact test2 = new Contact();
 			test2.FirstName = 'Bob';
 			test2.LastName = 'Belcher';

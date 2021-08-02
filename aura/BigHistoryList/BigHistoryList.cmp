@@ -2,201 +2,31 @@
 	<aura:attribute default="100" type="Integer" name="results"></aura:attribute>
 	<aura:attribute default="" type="String" name="recordId"></aura:attribute>
 	<aura:attribute default="" type="String" name="exclusionCSV"></aura:attribute>
-	<aura:attribute default="" type="String" name="listContent"></aura:attribute>
+	<aura:attribute default="" type="List" name="columns"></aura:attribute>
+	<aura:attribute default="" type="Object" name="entries"></aura:attribute>
 	<aura:handler action="{!c.init}" name="init" value="{!this}"></aura:handler>
 	<article class="slds-card">
-		<div style="height: 100%" class="slds-card__body slds-card__body_inner">
-			<div class="slds-card slds-card_boundary slds-grid slds-grid--vertical forceListViewManager">
-				<div class="slds-page-header--object-home slds-page-header_joined slds-page-header_bleed slds-page-header slds-shrink-none test-headerRegion forceListViewManagerHeader">
-					<div class="slds-grid">
-						<div class="slds-col slds-has-flexi-truncate firstHeaderRow">
-							<div class="slds-media slds-no-space slds-grow">
-								<div class="slds-media__body slds-align-middle">
-									<div class="slds-media__figure">
-										<h1 class="slds-page-header__title listViewTitle slds-truncate">
-											<span class="slds-icon_container slds-icon-standard-contact" title="BigHistory view">
-												<lightning:icon iconname="channel_program_history"></lightning:icon>
-											</span>
-											Field History
-										</h1>
-									</div>
+		<div class="slds-page-header">
+			<div class="slds-page-header__row">
+				<div class="slds-page-header__col-title">
+					<div class="slds-media">
+						<div class="slds-media__figure">
+							<lightning:icon icon-name="standard:event" alternative-text="Event" title="Event"></lightning:icon>
+						</div>
+						<div class="slds-media__body">
+							<div class="slds-page-header__name">
+								<div class="slds-page-header__name-title">
+									<h2>
+										<span class="slds-page-header__title slds-truncate" title="Field History">Field History</span>
+									</h2>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-				<div class="slds-grid listDisplays safari-workaround-anchor">
-					<div class="slds-grid listViewContainer safari-workaround">
-						<div class="slds-col slds-no-space forceListViewManagerPrimaryDisplayManager">
-							<div class="undefined hideSelection forceListViewManagerGrid">
-								<div class="listViewContent slds-table--header-fixed_container">
-									<div tabindex="-1" style="" class="uiScroller scroller-wrapper scroll-bidirectional native">
-										<div  class="scroller actionBarPlugin">
-											<div class="slds-table--edit_container slds-is-relative  inlineEdit--disabled keyboardMode--inactive inlineEditGrid forceInlineEditGrid">
-												<table class="slds-table forceRecordLayout slds-table--header-fixed slds-table--edit slds-table--bordered resizable-cols slds-table--resizable-cols uiVirtualDataTable" role="grid">
-													<thead>
-														<tr>
-															<th class="errorColumnHeader " scope="col" style="width: 60px;" aria-label="Item Number">
-																<div class="slds-cell-fixed" style="width: 60px;">
-																	<div class="slds-th__action">
-																		<span class="assistiveText">Item Number</span>
-																	</div>
-																	<div class="slds-resizable">
-																		<input type="range" min="60" max="3840" class="slds-resizable__input slds-assistive-text keyboardMode--skipArrowNavigation keyboardMode--pauseOnFocus" aria-label="Item Number Column Width"></input>
-																		<span class="slds-resizable__handle">
-																			<span class="slds-resizable__divider"></span>
-																		</span>
-																	</div>
-																</div>
-															</th>
-															<th class="descending slds-is-resizable" scope="col" style="width: 259px;" title="Date" aria-label="Date">
-																<div class="slds-cell-fixed" style="width: 259px;">
-																	<div class="slds-th__action">
-																		<span class="slds-truncate">Date</span>
-																	</div>
-																	<div class="slds-dropdown-trigger slds-dropdown-trigger_click keyboardMode--trigger keyboard--default-focus forceListViewManagerGridColumnHeaderMenu">
-																		<button class="slds-button slds-button_icon-bare" aria-expanded="false" aria-haspopup="true">
-																			<span class="slds-assistive-text">Column Actions</span>
-																		</button>
-																		<div class="slds-dropdown slds-dropdown_left">
-																			<ul class="dropdown__list slds-dropdown__list slds-dropdown_length-with-icon-10" role="menu"></ul>
-																		</div>
-																	</div>
-																	<div class="slds-resizable">
-																		<input type="range" min="60" max="3840" class="slds-resizable__input slds-assistive-text keyboardMode--skipArrowNavigation keyboardMode--pauseOnFocus" aria-label="Date Column Width"></input>
-																		<span class="slds-resizable__handle">
-																			<span class="slds-resizable__divider"></span>
-																		</span>
-																	</div>
-																</div>
-															</th>
-															<th class="  slds-is-resizable" scope="col" style="width: 322px;" title="Field" aria-label="Field">
-																<div class="slds-cell-fixed" style="width: 322px;">
-																	<div class="slds-th__action">
-																		<span class="slds-truncate">Field</span>
-																	</div>
-																	<div class="slds-dropdown-trigger slds-dropdown-trigger_click keyboardMode--trigger keyboard--default-focus forceListViewManagerGridColumnHeaderMenu">
-																		<button class="slds-button slds-button_icon-bare" aria-expanded="false" aria-haspopup="true">
-																			<span class="slds-assistive-text">Column Actions</span>
-																		</button>
-																		<div class="slds-dropdown slds-dropdown_left">
-																			<ul class="dropdown__list slds-dropdown__list slds-dropdown_length-with-icon-10" role="menu"></ul>
-																		</div>
-																	</div>
-																	<div class="slds-resizable">
-																		<input type="range" min="60" max="3840" class="slds-resizable__input slds-assistive-text keyboardMode--skipArrowNavigation keyboardMode--pauseOnFocus" aria-label="Field Column Width"></input>
-																		<span class="slds-resizable__handle">
-																			<span class="slds-resizable__divider"></span>
-																		</span>
-																	</div>
-																</div>
-															</th>
-															<th class="  slds-is-resizable" scope="col" style="width: 269px;" title="User" aria-label="User">
-																<div class="slds-cell-fixed" style="width: 269px;">
-																	<div class="slds-th__action">
-																		<span class="slds-truncate">User</span>
-																	</div>
-																	<div class="slds-dropdown-trigger slds-dropdown-trigger_click keyboardMode--trigger keyboard--default-focus forceListViewManagerGridColumnHeaderMenu">
-																		<button class="slds-button slds-button_icon-bare" aria-expanded="false" aria-haspopup="true">
-																			<span class="slds-assistive-text">Column Actions</span>
-																		</button>
-																		<div class="slds-dropdown slds-dropdown_left">
-																			<ul class="dropdown__list slds-dropdown__list slds-dropdown_length-with-icon-10" role="menu"></ul>
-																		</div>
-																	</div>
-																	<div class="slds-resizable">
-																		<input type="range" min="60" max="3840" class="slds-resizable__input slds-assistive-text keyboardMode--skipArrowNavigation keyboardMode--pauseOnFocus" aria-label="User Column Width"></input>
-																		<span class="slds-resizable__handle">
-																			<span class="slds-resizable__divider"></span>
-																		</span>
-																	</div>
-																</div>
-															</th>
-															<th class="  slds-is-resizable" scope="col" style="width: 269px;" title="Original Value" aria-label="Original Value">
-																<div class="slds-cell-fixed" style="width: 269px;">
-																	<div class="slds-th__action">
-																		<span class="slds-truncate">Original Value</span>
-																	</div>
-																	<div class="slds-dropdown-trigger slds-dropdown-trigger_click keyboardMode--trigger keyboard--default-focus forceListViewManagerGridColumnHeaderMenu">
-																		<button class="slds-button slds-button_icon-bare" aria-expanded="false" aria-haspopup="true">
-																			<span class="slds-assistive-text">Column Actions</span>
-																		</button>
-																		<div class="slds-dropdown slds-dropdown_left">
-																			<ul class="dropdown__list slds-dropdown__list slds-dropdown_length-with-icon-10" role="menu"></ul>
-																		</div>
-																	</div>
-																	<div class="slds-resizable">
-																		<input type="range" min="60" max="3840" class="slds-resizable__input slds-assistive-text keyboardMode--skipArrowNavigation keyboardMode--pauseOnFocus" aria-label="Original Value Column Width"></input>
-																		<span class="slds-resizable__handle">
-																			<span class="slds-resizable__divider"></span>
-																		</span>
-																	</div>
-																</div>
-															</th>
-															<th class="  slds-is-resizable" scope="col" style="width: 314px;" title="New Value" aria-label="New Value">
-																<div class="slds-cell-fixed" style="width: 314px;">
-																	<div class="slds-th__action">
-																		<span class="slds-truncate">New Value</span>
-																	</div>
-																	<div class="slds-dropdown-trigger slds-dropdown-trigger_click keyboardMode--trigger keyboard--default-focus forceListViewManagerGridColumnHeaderMenu">
-																		<button class="slds-button slds-button_icon-bare" aria-expanded="false" aria-haspopup="true">
-																			<span class="slds-assistive-text">Column Actions</span>
-																		</button>
-																		<div class="slds-dropdown slds-dropdown_right">
-																			<ul class="dropdown__list slds-dropdown__list slds-dropdown_length-with-icon-10" role="menu"></ul>
-																		</div>
-																	</div>
-																	<div class="slds-resizable">
-																		<input type="range" min="60" max="3840" class="slds-resizable__input slds-assistive-text keyboardMode--skipArrowNavigation keyboardMode--pauseOnFocus" aria-label="New Value Column Width"></input>
-																		<span class="slds-resizable__handle">
-																			<span class="slds-resizable__divider"></span>
-																		</span>
-																	</div>
-																</div>
-															</th>
-														</tr>
-													</thead>
-													<tbody id="listBody">
-														<!-- <aura:unescapedHtml value="{!v.listContent}" /> -->
-													</tbody>
-												</table>
-												<div tabindex="0"></div>
-												<div class="keyboardGridExitAfter" tabindex="-1"></div>
-											</div>
-										</div>
-									</div>
-									<div class="emptyContent slds-is-absolute hidden" tabindex="-1">
-										<div class="emptyContentInner slds-text-align_center">
-											<p>
-												<span>No items to display.</span>
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="footer slds-docked-form-footer slds-is-absolute forceListViewManagerGridFooter">
-									<div class="slds-grid slds-grid--align-center">
-										<div  class="forceStatusIcon"></div>
-										<button class="slds-button slds-button--neutral test-cancelButton uiButton--default uiButton--neutral uiButton" aria-live="off" type="button" aria-label=""  data-aura-class="uiButton--default uiButton--neutral uiButton">
-											<span class=" label bBody" dir="ltr">Cancel</span>
-										</button>
-										<button class="slds-button slds-button--neutral test-saveButton uiButton--default uiButton--brand uiButton" aria-live="off" type="button" aria-label=""  data-aura-class="uiButton--default uiButton--brand uiButton">
-											<span class=" label bBody" dir="ltr">Save</span>
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="slds-grid slds-no-flex slds-hide forceListViewManagerSecondaryDisplayManager"></div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<footer class="slds-card__footer"></footer>
+		<lightning:datatable keyField="id" data="{! v.entries }" columns="{! v.columns }" hideCheckboxColumn="true"/>
+		<lightning:spinner aura:id="bigHistorySpinner" alternativeText="Loading..." />
 	</article>
-	<div class="slds-spinner_container slds-hide" aura:id="spinner">
-		<div role="alert" class="slds-spinner--brand slds-spinner slds-spinner--medium" aria-hidden="false">
-			<div class="slds-spinner__dot-a"></div>
-			<div class="slds-spinner__dot-b"></div>
-		</div>
-	</div>
 </aura:component>

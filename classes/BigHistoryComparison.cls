@@ -33,6 +33,7 @@ global class BigHistoryComparison {
 								|| (current.isSame && current.oldRecord.get(fieldName) == current.newRecord.get(fieldName) && current.oldRecord.get(fieldName) != null)
 							) {
 								output.fieldName = fieldName;
+								output.fieldLabel = objDef.fields.getMap().get(fieldName).getDescribe().getLabel();
 								output.fieldType = objDef.fields.getMap().get(fieldName).getDescribe().getType().name();
 								output.oldValue = String.valueOf(current.oldRecord.get(fieldName));
 								output.newValue = String.valueOf(current.newRecord.get(fieldName));
@@ -60,10 +61,10 @@ global class BigHistoryComparison {
 	}
 	public class comparisonData {
 		@AuraEnabled
-		@InvocableVariable(label='New Record' description='Second record for comparison')
+		@InvocableVariable(label='New Record' description='Second record for comparison' required=true)
 		public sObject newRecord;
 		@AuraEnabled
-		@InvocableVariable(label='Original Record' description='First record for comparison')
+		@InvocableVariable(label='Original Record' description='First record for comparison' required=true)
 		public sObject oldRecord;
 		@AuraEnabled
 		@InvocableVariable(label='Find Same Values?' description='by default the differences are returned, check this to find matching values instead')
@@ -75,8 +76,9 @@ global class BigHistoryComparison {
 	public class comparisonResult {
 		@AuraEnabled @InvocableVariable(label='Record ID' description='' required=true) public String recordId = '';
 		@AuraEnabled @InvocableVariable(label='sObject Type' description='' required=true) public String sObjectType = '';
-		@AuraEnabled @InvocableVariable(label='Field Name' description='list of fields from comparison' required=true) public String fieldName = '';
-		@AuraEnabled @InvocableVariable(label='Field Type' description='list of field types from comparison' required=true) public String fieldType = '';
+		@AuraEnabled @InvocableVariable(label='Field Name' description='Field Name' required=true) public String fieldName = '';
+		@AuraEnabled @InvocableVariable(label='Field Label' description='Field Label' required=true) public String fieldLabel = '';
+		@AuraEnabled @InvocableVariable(label='Field Type' description='Field Type' required=true) public String fieldType = '';
 		@AuraEnabled @InvocableVariable(label='Original Value' description='' required=false) public String oldValue = '';
 		@AuraEnabled @InvocableVariable(label='New Value' description='' required=false) public String newValue = '';
 		@AuraEnabled @InvocableVariable(label='Has Error' description='' required=false) public Boolean hasError = false;
