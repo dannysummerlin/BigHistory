@@ -20,8 +20,17 @@ global class BigHistoryComparison {
 				if(current.fieldsToExcludeList != null)
 					fieldsToExclude = new Set<String>(current.fieldsToExcludeList.replaceAll('\\s','').split(','));
 				// fields that always change and should be ignored
-				fieldsToExclude.add('systemmodstamp');
-				fieldsToExclude.add('lastmodifieddate');
+					fieldsToExclude.add('createdbyid');
+					fieldsToExclude.add('createddate');
+					fieldsToExclude.add('lastactivitydate');
+					fieldsToExclude.add('lastmodifiedbyid');
+					fieldsToExclude.add('lastmodifieddate');
+					fieldsToExclude.add('lastname');
+					fieldsToExclude.add('lastreferenceddate');
+					fieldsToExclude.add('lasttransferdate');
+					fieldsToExclude.add('lastvieweddate');
+					fieldsToExclude.add('systemmodstamp');
+
 				for(String fieldName : fields.keySet()) {
 					BigHistoryComparison.comparisonResult output = new BigHistoryComparison.comparisonResult();
 					try {

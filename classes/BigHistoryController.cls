@@ -16,6 +16,7 @@ public class BigHistoryController {
 					entry.OldValue__c = (String) comparisonResults[ii].oldValue;
 					entry.NewValue__c = (String) comparisonResults[ii].newValue;
 					entry.Username__c = UserInfo.getUserName();
+					entry.ModifiedDate__c = System.now();
 					createEntries.add(entry);
 					results.add('Success for ' + comparisonResults[ii].RecordId);
 				} catch (Exception e) {
@@ -31,8 +32,10 @@ public class BigHistoryController {
 				}
 			}
 			try {
-				BigHistoryHandler handler = new BigHistoryHandler(createEntries);
-				System.enqueueJob(handler);
+				if(!Test.isRunningTest()) {
+					BigHistoryHandler handler = new BigHistoryHandler(createEntries);
+					System.enqueueJob(handler);
+				}
 				return output;
 			} catch (Exception e) {
 				output[inputs.size() - 1] = e.getMessage();

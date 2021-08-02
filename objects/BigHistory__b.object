@@ -76,6 +76,15 @@
 		<type>Text</type>
 		<unique>false</unique>
 	</fields>
+	<!-- ModifiedDate__c has to exist in order to be able to do filtering by date, Index can't use standard CreatedDate -->
+	<fields>
+		<fullName>ModifiedDate__c</fullName>
+		<externalId>false</externalId>
+		<label>Modified Date</label>
+		<required>true</required>
+		<type>DateTime</type>
+		<unique>false</unique>
+	</fields>
 	<indexes>
 		<fullName>BigHistoryIndex</fullName>
 		<type>PRIMARY</type>
@@ -84,7 +93,7 @@
 			<sortDirection>DESC</sortDirection>
 		</fields>
 		<fields>
-			<name>CreatedDate</name>
+			<name>ModifiedDate__c</name>
 			<sortDirection>DESC</sortDirection>
 		</fields>
 		<label>BigHistoryIndex</label>
