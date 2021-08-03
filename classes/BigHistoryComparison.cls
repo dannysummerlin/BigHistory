@@ -3,61 +3,68 @@ global class BigHistoryComparison {
 		List<BigHistoryComparison.comparisonResult> wrapper = new List<BigHistoryComparison.comparisonResult>{};
 		for(Integer count = 0; count < inputs.size(); count++) {
 			BigHistoryComparison.comparisonData current = inputs[count];
-			try {
-				if(current.oldRecord.getSObjectType() != current.newRecord.getSObjectType()) {
-					SObjectException e = new SObjectException();
-					e.setMessage('Comparison records must be the same type in order to compare');
-					throw e;
-				}
-				DescribeSObjectResult objDef = current.oldRecord.getSObjectType().getDescribe();
-				Type classType = Type.forName(objDef.getName());
-				Map<String, SObjectField> fields = objDef.fields.getMap();
-
-				String sObjectType = (String) objDef.getName();
-				String recordId = (String) current.oldRecord.get('Id');
-
-				Set<String> fieldsToExclude = new Set<String>{};
-				if(current.fieldsToExcludeList != null)
-					fieldsToExclude = new Set<String>(current.fieldsToExcludeList.replaceAll('\\s','').split(','));
-				// fields that always change and should be ignored
-					fieldsToExclude.add('createdbyid');
-					fieldsToExclude.add('createddate');
-					fieldsToExclude.add('lastactivitydate');
-					fieldsToExclude.add('lastmodifiedbyid');
-					fieldsToExclude.add('lastmodifieddate');
-					fieldsToExclude.add('lastname');
-					fieldsToExclude.add('lastreferenceddate');
-					fieldsToExclude.add('lasttransferdate');
-					fieldsToExclude.add('lastvieweddate');
-					fieldsToExclude.add('systemmodstamp');
-
-				for(String fieldName : fields.keySet()) {
-					BigHistoryComparison.comparisonResult output = new BigHistoryComparison.comparisonResult();
-					try {
-						output.sObjectType = sObjectType;
-						output.recordId = recordId;
-						if (!fieldsToExclude.contains(fieldName)) {
-							if(
-								(!current.isSame && current.oldRecord.get(fieldName) != current.newRecord.get(fieldName))
-								|| (current.isSame && current.oldRecord.get(fieldName) == current.newRecord.get(fieldName) && current.oldRecord.get(fieldName) != null)
-							) {
-								output.fieldName = fieldName;
-								output.fieldLabel = objDef.fields.getMap().get(fieldName).getDescribe().getLabel();
-								output.fieldType = objDef.fields.getMap().get(fieldName).getDescribe().getType().name();
-								output.oldValue = String.valueOf(current.oldRecord.get(fieldName));
-								output.newValue = String.valueOf(current.newRecord.get(fieldName));
-								wrapper.add(output);
-							}
-						}
-					} catch (Exception e) {
-						output.hasError = true;
-						output.errorMessage = e.getMessage();
-						wrapper.add(output);
-						System.debug('An exception occurred: ' + e.getMessage());
+			if(current.oldRecord == null) {
+				BigHistoryComparison.comparisonResult output = new BigHistoryComparison.comparisonResult();
+				output.hasError = true;
+				output.errorMessage = 'Empty original record';
+				wrapper.add(output);
+			} else {
+				try {
+					if(current.oldRecord.getSObjectType() != current.newRecord.getSObjectType()) {
+						SObjectException e = new SObjectException();
+						e.setMessage('Comparison records must be the same type in order to compare');
+						throw e;
 					}
+					DescribeSObjectResult objDef = current.oldRecord.getSObjectType().getDescribe();
+					Type classType = Type.forName(objDef.getName());
+					Map<String, SObjectField> fields = objDef.fields.getMap();
+
+					String sObjectType = (String) objDef.getName();
+					String recordId = (String) current.oldRecord.get('Id');
+
+					Set<String> fieldsToExclude = new Set<String>{};
+					if(current.fieldsToExcludeList != null)
+						fieldsToExclude = new Set<String>(current.fieldsToExcludeList.replaceAll('\\s','').split(','));
+					// fields that always change and should be ignored
+						fieldsToExclude.add('createdbyid');
+						fieldsToExclude.add('createddate');
+						fieldsToExclude.add('lastactivitydate');
+						fieldsToExclude.add('lastmodifiedbyid');
+						fieldsToExclude.add('lastmodifieddate');
+						fieldsToExclude.add('lastname');
+						fieldsToExclude.add('lastreferenceddate');
+						fieldsToExclude.add('lasttransferdate');
+						fieldsToExclude.add('lastvieweddate');
+						fieldsToExclude.add('systemmodstamp');
+
+					for(String fieldName : fields.keySet()) {
+						BigHistoryComparison.comparisonResult output = new BigHistoryComparison.comparisonResult();
+						try {
+							output.sObjectType = sObjectType;
+							output.recordId = recordId;
+							if (!fieldsToExclude.contains(fieldName)) {
+								if(
+									(!current.isSame && current.oldRecord.get(fieldName) != current.newRecord.get(fieldName))
+									|| (current.isSame && current.oldRecord.get(fieldName) == current.newRecord.get(fieldName) && current.oldRecord.get(fieldName) != null)
+								) {
+									output.fieldName = fieldName;
+									output.fieldLabel = objDef.fields.getMap().get(fieldName).getDescribe().getLabel();
+									output.fieldType = objDef.fields.getMap().get(fieldName).getDescribe().getType().name();
+									output.oldValue = String.valueOf(current.oldRecord.get(fieldName));
+									output.newValue = String.valueOf(current.newRecord.get(fieldName));
+									wrapper.add(output);
+								}
+							}
+						} catch (Exception e) {
+							output.hasError = true;
+							output.errorMessage = e.getMessage();
+							wrapper.add(output);
+							System.debug('An exception occurred: ' + e.getMessage());
+						}
+					}
+				} catch (Exception e) {
+					System.debug('An exception occurred: ' + e.getMessage());
 				}
-			} catch (Exception e) {
-				System.debug('An exception occurred: ' + e.getMessage());
 			}
 		}
 		return wrapper;
@@ -73,7 +80,7 @@ global class BigHistoryComparison {
 		@InvocableVariable(label='New Record' description='Second record for comparison' required=true)
 		public sObject newRecord;
 		@AuraEnabled
-		@InvocableVariable(label='Original Record' description='First record for comparison' required=true)
+		@InvocableVariable(label='Original Record' description='First record for comparison')
 		public sObject oldRecord;
 		@AuraEnabled
 		@InvocableVariable(label='Find Same Values?' description='by default the differences are returned, check this to find matching values instead')
