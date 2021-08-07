@@ -7,14 +7,10 @@ Use Big Objects to audit all your fields! This package includes the An Apex Acti
 ## Flow Action
 You can use the BigHistory class in an Apex trigger, but the best way to use it is with Record-Triggered Flows.
 
-1. Using a Record-Triggered Flow you can take advantage of the new $Record and $Record__Prior variables (with a caveat, see Known Issues) to automatically capture all updated values
-![Record Triggered Flow](https://i.imgur.com/u5VrJYk.png)
-2. Some quirk of Flow doesn't hand $Record__Prior to the Apex as a true sObject, so you need to first create a wrapper "Record" variable of the same type as the $Record itself 
-![copy Record__prior](https://i.imgur.com/USLm2QW.png)
-3. After that you add the BigHistory action. The "Original Record" input field is marked as optional to accomodate blank data when a record is first created, but it is necessary to catch any changes
-![Add BigHistory Action](https://i.imgur.com/oTrOX1I.png)
-4. The simplest Flow will look something like this:
-![Simple Flow](https://i.imgur.com/2yk7F9l.png)
+1. Using a Record-Triggered Flow you can take advantage of the new $Record and $Record__Prior variables (with a caveat, see Known Issues) to automatically capture all updated values <br/> ![Record Triggered Flow](https://i.imgur.com/u5VrJYk.png)
+2. Some quirk of Flow doesn't hand $Record__Prior to the Apex as a true sObject, so you need to first create a wrapper "Record" variable of the same type as the $Record itself <br/> ![copy Record__prior](https://i.imgur.com/USLm2QW.png)
+3. After that you add the BigHistory action. The "Original Record" input field is marked as optional to accomodate blank data when a record is first created, but it is necessary to catch any changes <br/> ![Add BigHistory Action](https://i.imgur.com/oTrOX1I.png)
+4. The simplest Flow will look something like this: <br/> ![Simple Flow](https://i.imgur.com/2yk7F9l.png)
 
 ## Lightning Component
 You can then add the BigHistoryList Lightning Component to Record Pages to see the history.
