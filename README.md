@@ -1,4 +1,5 @@
 # BigHistory
+## version 1.0
 If you have ever wanted to track more than 20 Field Histories on one sObject, BigHistory is here for you! Use Big Objects to audit all your fields with an Apex Action for Flow and a Lightning Component for your pages
 
 [<img src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">](https://githubsfdeploy.herokuapp.com/?owner=dannysummerlin&repo=BigHistory&ref=main)
