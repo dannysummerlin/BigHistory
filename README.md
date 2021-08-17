@@ -22,7 +22,7 @@ If there are sensitive fields you do not want listed in the field history you ca
 
 # Known Issues/Caveats
 * Record__Prior - must be assigned to a Flow variable. For some reason Flow does not treat Record__Prior as a true sObject when handing off to Apex, so it must be copied into a holder variable
-* Security - *be aware* of BigObject security, which is everything for everyone. Big Objects don't have sharing rules, so be sure that anyone who has access to the 
+* Security - *be aware* of BigObject security, which is everything for everyone. Big Objects don't have sharing rules, so be sure that anyone who has access to the Big Object has clearance to see the recorded fields. UPDATE: you can use the inclusive and exclusive field lists in both the Action and the Lightning Component to further restrict what is recorded and what is displayed
 * Merge handling - *be aware* history will not be transfered when records are merged. The entries associated with the original record will still exist, but you will have to know the old record ID and do custom Big Object query in order to see them
 
 # Roadmap/Future
