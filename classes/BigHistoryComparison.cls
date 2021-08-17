@@ -44,7 +44,7 @@ global class BigHistoryComparison {
 						BigHistoryComparison.comparisonResult output = new BigHistoryComparison.comparisonResult();
 						try {
 							if(Test.isRunningTest() && current.fieldsToExcludeList == 'TEST')
-								Int fail = 1/0;
+								Integer fail = 1/0;
 							output.sObjectType = sObjectType;
 							output.recordId = recordId;
 							if ((fieldsToInclude.isEmpty() && !fieldsToExclude.contains(fieldName))
