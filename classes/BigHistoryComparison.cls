@@ -43,6 +43,8 @@ global class BigHistoryComparison {
 					for(String fieldName : fields.keySet()) {
 						BigHistoryComparison.comparisonResult output = new BigHistoryComparison.comparisonResult();
 						try {
+							if(Test.isRunningTest() && current.fieldsToExcludeList == 'TEST')
+								Int fail = 1/0;
 							output.sObjectType = sObjectType;
 							output.recordId = recordId;
 							if ((fieldsToInclude.isEmpty() && !fieldsToExclude.contains(fieldName))

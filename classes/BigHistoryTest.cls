@@ -33,4 +33,22 @@ private class BigHistoryTest {
 		Test.stopTest();
 		System.debug(results);
 	}
+	@isTest
+	static void failBigHistory() {
+		Contact test1 = new Contact();
+			test1.FirstName = 'Lincoln';
+			test1.LastName = 'Summerlin';
+		// Insert test1;
+		Contact test2 = new Contact();
+			test2.FirstName = 'Bob';
+			test2.LastName = 'Belcher';
+		BigHistoryComparison.comparisonData testData = new BigHistoryComparison.comparisonData(); 
+		testData.oldRecord = test1;
+		testData.newRecord = test2;
+		testData.fieldsToExcludeList = 'TEST';
+		Test.startTest();
+			List<String> results = BigHistoryController.recordBigHistory(new List<BigHistoryComparison.comparisonData>{testData});
+		Test.stopTest();
+		System.debug(results);
+	}
 }
