@@ -14,12 +14,21 @@
 		})
 		action.setCallback(this, function(response){
 			const state = response.getState()
-			let exclusionList = c.get('v.exclusionCSV').split(',') || []
-			exclusionList = exclusionList.reduce((l,e) => l.concat(e.trim()), [])
+			let filterMode = 'include'
+			let filterList = c.get('v.inclusionCSV').split(',') || []
+			filterList = filterList.reduce((l,e) => l.concat(e.trim()), [])
+			if(filterList.length == 0) {
+				filterMode = 'exclude'
+				filterList = c.get('v.exclusionCSV').split(',') || []
+				filterList = filterList.reduce((l,e) => l.concat(e.trim()), [])
+			}
 			if (state === "SUCCESS") {
 				let bigHistoryEntries = JSON.parse(response.getReturnValue()).entries
 				try {
-					bigHistoryEntries = bigHistoryEntries.filter(e=>(!exclusionList.includes(e.FieldName__c)))
+					bigHistoryEntries = bigHistoryEntries.filter(e=>(
+						(filterMode == 'exclude' && !filterList.includes(e.FieldName__c))
+						|| (filterMode == 'include' && filterList.includes(e.FieldName__c))
+					))
 				} catch (err) {
 					bigHistoryEntries = []
 					console.log(err)

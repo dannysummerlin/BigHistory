@@ -27,6 +27,7 @@ private class BigHistoryTest {
 		BigHistoryComparison.comparisonData testData = new BigHistoryComparison.comparisonData(); 
 		testData.oldRecord = test1;
 		testData.newRecord = test2;
+		testData.fieldsToExcludeList = 'Id,Birthdate';
 		Test.startTest();
 			List<String> results = BigHistoryController.recordBigHistory(new List<BigHistoryComparison.comparisonData>{testData});
 		Test.stopTest();

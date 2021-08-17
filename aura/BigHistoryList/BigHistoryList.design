@@ -1,3 +1,4 @@
 <design:component>
+	<design:attribute name="inclusionCSV" label="Inclusion List (CSV)" description="List comma-separated API names of fields to include (this takes priority over the exclusion list)" />
 	<design:attribute name="exclusionCSV" label="Exclusion List (CSV)" description="List comma-separated API names of fields to exclude (eg secure fields like SSNs)" />
 </design:component>
