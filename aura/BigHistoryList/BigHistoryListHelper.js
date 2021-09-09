@@ -17,7 +17,7 @@
 			let filterMode = 'include'
 			let filterList = c.get('v.inclusionCSV').split(',') || []
 			filterList = filterList.reduce((l,e) => l.concat(e.trim()), [])
-			if(filterList.length == 0) {
+			if(filterList.join() === "") {
 				filterMode = 'exclude'
 				filterList = c.get('v.exclusionCSV').split(',') || []
 				filterList = filterList.reduce((l,e) => l.concat(e.trim()), [])
