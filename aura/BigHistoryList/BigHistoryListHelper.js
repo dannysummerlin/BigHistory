@@ -16,11 +16,11 @@
 			const state = response.getState()
 			let filterMode = 'include'
 			let filterList = c.get('v.inclusionCSV').split(',') || []
-			filterList = filterList.reduce((l,e) => l.concat(e.trim()), [])
+			filterList = filterList.reduce((l,e) => l.concat(e.toLowerCase().trim()), [])
 			if(filterList.join() === "") {
 				filterMode = 'exclude'
 				filterList = c.get('v.exclusionCSV').split(',') || []
-				filterList = filterList.reduce((l,e) => l.concat(e.trim()), [])
+				filterList = filterList.reduce((l,e) => l.concat(e.toLowerCase().trim()), [])
 			}
 			if (state === "SUCCESS") {
 				let bigHistoryEntries = JSON.parse(response.getReturnValue()).entries
