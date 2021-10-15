@@ -34,7 +34,8 @@ public class BigHistoryController {
 			try {
 				if(!Test.isRunningTest()) {
 					BigHistoryHandler handler = new BigHistoryHandler(createEntries);
-					System.enqueueJob(handler);
+					//System.enqueueJob(handler);
+					Database.executeBatch(handler);
 				}
 				return output;
 			} catch (Exception e) {
